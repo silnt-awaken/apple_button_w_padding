@@ -157,7 +157,7 @@ class SignInWithAppleButton extends StatelessWidget {
       child: SizedBox.expand(
         child: CupertinoButton(
           borderRadius: borderRadius,
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.all(8.0),
           color: _backgroundColor,
           onPressed: onPressed,
           child: Container(
