@@ -17,39 +17,17 @@ class SignInWithAppleButton extends StatelessWidget {
     this.style = SignInWithAppleButtonStyle.black,
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
     this.iconAlignment = IconAlignment.center,
+    this.verticalPadding = 8.0, // Default vertical padding
   });
 
-  /// The callback that is be called when the button is pressed.
   final VoidCallback onPressed;
-
-  /// The text to display next to the Apple logo.
-  ///
-  /// Defaults to `Sign in with Apple`.
   final String text;
-
-  /// The height of the button.
-  ///
-  /// This defaults to `44` according to Apple's guidelines.
   final double height;
-
-  /// The style of the button.
-  ///
-  /// Supported options are in line with Apple's guidelines.
-  ///
-  /// This defaults to [SignInWithAppleButtonStyle.black].
   final SignInWithAppleButtonStyle style;
-
-  /// The border radius of the button.
-  ///
-  /// Defaults to `8` pixels.
   final BorderRadius borderRadius;
-
-  /// The alignment of the Apple logo inside the button.
-  ///
-  /// This defaults to [IconAlignment.center].
   final IconAlignment iconAlignment;
+  final double verticalPadding;
 
-  /// Returns the background color of the button based on the current [style].
   Color get _backgroundColor {
     switch (style) {
       case SignInWithAppleButtonStyle.black:
@@ -60,9 +38,6 @@ class SignInWithAppleButton extends StatelessWidget {
     }
   }
 
-  /// Returns the contrast color to the [_backgroundColor] derived from the current [style].
-  ///
-  /// This is used for the text and logo color.
   Color get _contrastColor {
     switch (style) {
       case SignInWithAppleButtonStyle.black:
@@ -73,9 +48,6 @@ class SignInWithAppleButton extends StatelessWidget {
     }
   }
 
-  /// The decoration which should be applied to the inner container inside the button
-  ///
-  /// This allows to customize the border of the button
   Decoration? get _decoration {
     switch (style) {
       case SignInWithAppleButtonStyle.black:
@@ -92,7 +64,6 @@ class SignInWithAppleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // per Apple's guidelines
     final fontSize = height * 0.43;
 
     final textWidget = Text(
@@ -102,7 +73,6 @@ class SignInWithAppleButton extends StatelessWidget {
         inherit: false,
         fontSize: fontSize,
         color: _contrastColor,
-        // defaults styles aligned with https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/text_theme.dart#L16
         fontFamily: '.SF Pro Text',
         letterSpacing: -0.41,
       ),
@@ -112,7 +82,6 @@ class SignInWithAppleButton extends StatelessWidget {
       width: _appleIconSizeScale * height,
       height: _appleIconSizeScale * height + 2,
       padding: EdgeInsets.only(
-        // Properly aligns the Apple icon with the text of the button
         bottom: (4 / 44) * height,
       ),
       child: Center(
@@ -152,12 +121,14 @@ class SignInWithAppleButton extends StatelessWidget {
         break;
     }
 
-    return SizedBox(
-      height: height,
-      child: SizedBox.expand(
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: verticalPadding),
+      child: SizedBox(
+        height:
+            height + verticalPadding * 2, // Adjust height to include padding
         child: CupertinoButton(
           borderRadius: borderRadius,
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.zero,
           color: _backgroundColor,
           onPressed: onPressed,
           child: Container(
@@ -165,7 +136,7 @@ class SignInWithAppleButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,
             ),
-            height: height,
+            height: height, // Keep original height for inner content
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: children,
